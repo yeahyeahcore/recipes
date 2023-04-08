@@ -3,8 +3,9 @@ package models
 import "penahub.gitlab.yandexcloud.net/pena-services/accruals-service/pkg/postgres"
 
 type Config struct {
-	HTTP     HTTPConfiguration
-	Database DatabaseConfiguration
+	HTTP      HTTPConfiguration
+	Database  DatabaseConfiguration
+	FilesDist string `env:"FILES_DIST,default=./data"`
 }
 
 type HTTPConfiguration struct {

@@ -40,7 +40,8 @@ func NewHTTP(logger *logrus.Logger) *HTTP {
 	}
 }
 
-func (receiver *HTTP) Register(controllers *initialize.Controllers) *HTTP {
+func (receiver *HTTP) Register(controllers *initialize.Controllers, dist string) *HTTP {
+	receiver.echo.Static("/", dist)
 
 	return receiver
 }

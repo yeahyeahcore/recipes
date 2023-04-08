@@ -1,40 +1,38 @@
-# accruals-service
+# recipe-service
 
-Микросервис для создания скидок и формирования цен из реализованных скидок
-
-| Branch        | Pipeline          | Code coverage  |
-| ------------- |:-----------------:| --------------:|
-| main          | [![pipeline status](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/badges/main/pipeline.svg)](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/-/pipelines) | [![coverage report](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/badges/main/coverage.svg?job=test)](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/-/pipelines) |
-| staging           | [![pipeline status](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/badges/staging/pipeline.svg)](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/-/pipelines) | [![coverage report](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/badges/staging/coverage.svg?job=test)](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/-/pipelines) |
-| dev           | [![pipeline status](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/badges/dev/pipeline.svg)](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/-/pipelines) | [![coverage report](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/badges/dev/coverage.svg?job=test)](https://penahub.gitlab.yandexcloud.net/pena-services/discount-service/-/pipelines) |
+Сервис рецептов
 
 ## Переменные окружения приложения
 
 ```
-GRPC_HOST                   - хост прослушивания приложения (gRPC)
-GPRC_PORT                   - порт прослушивания приложения (gRPC)
+HTTP_HOST                   - хост прослушивания приложения (HTTP)
 HTTP_PORT                   - порт прослушивания приложения (HTTP)
 
-MONGO_HOST                  - хост базы данных
-MONGO_PORT                  - порт базы данных
-MONGO_USER                  - имя пользователя базы данных для авторизации
-MONGO_PASSWORD              - пароль пользователя базы данных для авторизации
-MONGO_AUTH                  - название базы данных для авторизации
-MONGO_DATABASE_NAME         - название базы данных, к которой будет идти подключение
+FILES_DIST                  - путь от корневой папки, куда будут сохранятся файлы
+
+POSTGRES_DB_HOST            - хост базы данных
+POSTGRES_DB_PORT            - порт базы данных
+POSTGRES_DB_USER            - имя пользователя базы данных для авторизации
+POSTGRES_DB_PASSWORD        - пароль пользователя базы данных для авторизации
+POSTGRES_DB_NAME            - название базы данных, к которой будет идти подключение
+POSTGRES_DB_SSLMODE         - sslmode
 ```
 
 ## Пример переменных окружения:
 
 ```
-GRPC_HOST=0.0.0.0
-GPRC_PORT=9001
-HTTP_PORT=8001
+HTTP_HOST=0.0.0.0
+HTTP_PORT=8000
 
-MONGO_HOST=localhost
-MONGO_PORT=27017
-MONGO_USER=test
-MONGO_PASSWORD=test
-MONGO_AUTH=admin
+FILES_DIST=./dist
+
+POSTGRES_DB_HOST=localhost
+POSTGRES_DB_PORT=5432
+POSTGRES_DB_USER=test
+POSTGRES_DB_PASSWORD=test
+POSTGRES_DB_NAME=recipes
+POSTGRES_DB_SSLMODE=false
+
 ```
 
 ## Команды для работы с приложением:

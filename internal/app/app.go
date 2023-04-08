@@ -39,7 +39,7 @@ func Run(config *models.Config, logger *logrus.Logger) {
 		Services: services,
 	})
 
-	serverHTTP := server.NewHTTP(logger).Register(controllers)
+	serverHTTP := server.NewHTTP(logger).Register(controllers, config.FilesDist)
 
 	go serverHTTP.Run(&config.HTTP)
 

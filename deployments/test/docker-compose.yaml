@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: ../../.
+      dockerfile: Dockerfile
+      target: test
+    env_file:
+      - ../../.env.test
+    ports:
+      - 9001:9001
+      - 8001:8001
+    depends_on:
+      - migration
+    networks:
+      - integration_test
+
+  migration:
+    build:
+      context: ../../.
+      dockerfile: Dockerfile
+      target: migration
+    command:
+      [
+        "sh",
+        "-c",
+        'migrate -source file://migrations -database "mongodb://$MONGO_USER:$MONGO_PASSWORD@$MONGO_HOST:$MONGO_PORT/$MONGO_AUTH?authSource=$MONGO_AUTH" up',
+      ]
+    depends_on:
+      - mongo
+    networks:
+      - integration_test
+
+  mongo:
+    image: 'mongo:6.0.3'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test
+    ports:
+      - '27017:27017'
+    networks:
+      - integration_test
+
+networks:
+  integration_test:

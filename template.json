@@ -1,0 +1,1029 @@
+{
+  "privileges": [
+    {
+      "serviceKey": "templategen",
+      "name": "unlim",
+      "privilegeId": "p1",
+      "description": "привилегия безлимитного доступа к шаблонизатору на время. в днях",
+      "type": "day",
+      "price": 0.5
+    },
+    {
+      "serviceKey": "templategen",
+      "name": "gencount",
+      "privilegeId": "p2",
+      "description": "привилегия на определённое количество генераций",
+      "type": "count",
+      "price": 0.1
+    },
+    {
+      "serviceKey": "squiz",
+      "name": "unlim",
+      "privilegeId": "p3",
+      "description": "привилегия безлимитного доступа к опроснику. в днях",
+      "type": "day",
+      "price": 3.0
+    },
+    {
+      "serviceKey": "squiz",
+      "name": "activequiz",
+      "privilegeId": "p4",
+      "description": "привилегия создания ограниченного количества опросов",
+      "type": "count",
+      "price": 1.0
+    },
+    {
+      "serviceKey": "dwarfener",
+      "name": "unlim",
+      "privilegeId": "p5",
+      "description": "привилегия безлимитного доступа к сокращателю на время. в днях",
+      "type": "day",
+      "price": 0.1
+    },
+    {
+      "serviceKey": "dwarfener",
+      "name": "abcount",
+      "privilegeId": "p6",
+      "description": "привилегия на количество активных ссылок в абтестах",
+      "type": "count",
+      "price": 0.7
+    },
+    {
+      "serviceKey": "dwarfener",
+      "name": "extended",
+      "privilegeId": "p7",
+      "description": "привилегия расширенной статистики, в днях",
+      "type": "day",
+      "price": 2
+    }
+  ],
+  "discounts": [
+    {
+      "_id": "id1",
+      "name": "Лояльность 1",
+      "description": "постоянная скидка для юзеров, внёсших на проект от 10 000 рублей. Применяется на итоговую сумму, после скидок за сумму в корзине",
+      "сonditionType": "purchasesAmount",
+      "layer": 4, // "слой", т.е. этап применения скидки
+      "condition": {
+        "purchasesAmount": 10000
+      },
+      "factor": 0.99 // множитель, применяемый к сумме
+    },
+    {
+      "_id": "id2",
+      "name": "Лояльность 2",
+      "description": "постоянная скидка для юзеров, внёсших на проект от 25 000 рублей. Применяется на итоговую сумму, после скидок за сумму в корзине",
+      "сonditionType": "purchasesAmount",
+      "layer": 4,
+      "condition": {
+        "purchasesAmount": 25000
+      },
+      "factor": 0.98
+    },
+    {
+      "_id": "id3",
+      "name": "Лояльность 3",
+      "description": "постоянная скидка для юзеров, внёсших на проект от 50 000 рублей. Применяется на итоговую сумму, после скидок за сумму в корзине",
+      "сonditionType": "purchasesAmount",
+      "layer": 4,
+      "condition": {
+        "purchasesAmount": 50000
+      },
+      "factor": 0.975
+    },
+    {
+      "_id": "id4",
+      "name": "Корзина 1",
+      "description": "Скидка на размер корзины от 5 000 р. Применяется на итоговую сумму, после суммирования корзины",
+      "сonditionType": "cartPurchasesAmount",
+      "layer": 3,
+      "condition": {
+        "cartPurchasesAmount": 5000
+      },
+      "factor": 0.985
+    },
+    {
+      "_id": "id5",
+      "name": "Корзина 2",
+      "description": "Скидка на размер корзины от 50 000 р. Применяется на итоговую сумму, после суммирования корзины",
+      "сonditionType": "cartPurchasesAmount",
+      "layer": 3,
+      "condition": {
+        "cartPurchasesAmount": 50000
+      },
+      "factor": 0.965
+    },
+    {
+      "_id": "id6",
+      "name": "Анлим Шабло 1",
+      "description": "Скидка на количество безлимитных дней работы от 30 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          // если в condition условие для поиска, то вот я добавил в него условие для поиска по привилегии
+          "id": "p1", // айди привилегии
+          "value": 30 // скидка работает, если значние больше либо равно этому значению
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p1", // не знаю, стоит ли тут оставлять массив products, но на всякий случай оставлю. т.е. скидка, при срабатывании, применяется к этой привилегии в корзине, т.е. умножает её сумму на factor
+            "factor": 0.975
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id7",
+      "name": "Анлим Шабло 2",
+      "description": "Скидка на количество безлимитных дней работы от 90 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p1",
+          "value": 90
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p1",
+            "factor": 0.975
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id8.rev",
+      "name": "Анлим Шабло 3",
+      "description": "Скидка на количество безлимитных дней работы от 180 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p1",
+          "value": 180
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p1",
+            "factor": 0.93
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id8",
+      "name": "Генерации Шабло 1",
+      "description": "Скидка на количество генераций от 100 шт",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p2",
+          "value": 100
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p2",
+            "factor": 0.995
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id9",
+      "name": "Генерации Шабло 2",
+      "description": "Скидка на количество генераций от 350 шт",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p2",
+          "value": 350
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p2",
+            "factor": 0.98
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id10",
+      "name": "Генерации Шабло 3",
+      "description": "Скидка на количество генераций от 500 шт",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p2",
+          "value": 500
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p2",
+            "factor": 0.945
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id11",
+      "name": "Анлим Квиз 1",
+      "description": "Скидка на количество дней безлимитного использования опросника, от 30 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p3",
+          "value": 30
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p3",
+            "factor": 0.97
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id12",
+      "name": "Анлим Квиз 2",
+      "description": "Скидка на количество дней безлимитного использования опросника, от 90 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p3",
+          "value": 90
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p3",
+            "factor": 0.93
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id13",
+      "name": "Анлим Квиз 3",
+      "description": "Скидка на количество дней безлимитного использования опросника, от 180 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p3",
+          "value": 180
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p3",
+            "factor": 0.85
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id14",
+      "name": "Актив квиз 1",
+      "description": "Скидка на количество опросов от 100 шт",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p4",
+          "value": 100
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p4",
+            "factor": 0.98
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id15",
+      "name": "Актив квиз 2",
+      "description": "Скидка на количество опросов от 200 шт",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p4",
+          "value": 200
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p4",
+            "factor": 0.96
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id16",
+      "name": "Актив квиз 3",
+      "description": "Скидка на количество опросов от 350 шт",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p4",
+          "value": 350
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p4",
+            "factor": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id17",
+      "name": "Анлим Сокращатель 1",
+      "description": "Скидка на безлимитное использование сокращателя от 30 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p5",
+          "value": 30
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p5",
+            "factor": 0.99
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id18",
+      "name": "Анлим Сокращатель 2",
+      "description": "Скидка на безлимитное использование сокращателя от 60 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p5",
+          "value": 60
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p5",
+            "factor": 0.98
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id19",
+      "name": "Анлим Сокращатель 3",
+      "description": "Скидка на безлимитное использование сокращателя от 90 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p5",
+          "value": 90
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p5",
+            "factor": 0.97
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id20",
+      "name": "АБ Сокращатель 1",
+      "description": "Скидка на количество АБ тестов, от 10 штук",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p6",
+          "value": 10
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p6",
+            "factor": 0.99
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id22",
+      "name": "АБ Сокращатель 2",
+      "description": "Скидка на количество АБ тестов, от 25 штук",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p6",
+          "value": 25
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p6",
+            "factor": 0.965
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id23",
+      "name": "АБ Сокращатель 3",
+      "description": "Скидка на количество АБ тестов, от 50 штук",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p6",
+          "value": 50
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p6",
+            "factor": 0.935
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id24",
+      "name": "Стата Сокращатель 1",
+      "description": "Скидка на дни сбора расширенной статистики от 30 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p7",
+          "value": 30
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p7",
+            "factor": 0.935
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id24",
+      "name": "Стата Сокращатель 2",
+      "description": "Скидка на дни сбора расширенной статистики от 90 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p7",
+          "value": 90
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p7",
+            "factor": 0.875
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id25",
+      "name": "Стата Сокращатель 3",
+      "description": "Скидка на дни сбора расширенной статистики от 180 дней",
+      "сonditionType": "privilege",
+      "layer": 1,
+      "condition": {
+        "privilege": {
+          "id": "p7",
+          "value": 180
+        }
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p7",
+            "factor": 0.83
+          }
+        ]
+      }
+    },
+    {
+      "_id": "id26",
+      "name": "Шаблонизатор 1",
+      "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису шаблонизации, от 1000 р",
+      "сonditionType": "service",
+      "layer": 2,
+      "condition": {
+        "service": {
+          "id": "templategen",
+          "value": 1000
+        }
+      },
+      "target": {
+        "service": "templategen",
+        "factor": 0.996
+      }
+    },
+    {
+      "_id": "id27",
+      "name": "Шаблонизатор 2",
+      "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису шаблонизации, от 5000 р",
+      "сonditionType": "service",
+      "layer": 2,
+      "condition": {
+        "service": {
+          "id": "templategen",
+          "value": 5000
+        }
+      },
+      "target": {
+        "service": "templategen",
+        "factor": 0.983
+      }
+    },
+    {
+      "_id": "id28",
+      "name": "Опросник 1",
+      "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису опросника, от 2000 р",
+      "сonditionType": "service",
+      "layer": 2,
+      "condition": {
+        "service": {
+          "id": "squiz",
+          "value": 2000
+        }
+      },
+      "target": {
+        "service": "squiz",
+        "factor": 0.983
+      }
+    },
+    {
+      "_id": "id29",
+      "name": "Опросник 2",
+      "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису опросника, от 6000 р",
+      "сonditionType": "service",
+      "layer": 2,
+      "condition": {
+        "service": {
+          "id": "squiz",
+          "value": 6000
+        }
+      },
+      "target": {
+        "service": "squiz",
+        "factor": 0.969
+      }
+    },
+    {
+      "_id": "id30",
+      "name": "Сокращатель 1",
+      "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису сокращателя, от 500 р",
+      "сonditionType": "service",
+      "layer": 2,
+      "condition": {
+        "service": {
+          "id": "dwarfener",
+          "value": 500
+        }
+      },
+      "target": {
+        "service": "dwarfener",
+        "factor": 0.99
+      }
+    },
+    {
+      "_id": "id31",
+      "name": "Сокращатель 2",
+      "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису сокращателя, от 2500 р",
+      "сonditionType": "service",
+      "layer": 2,
+      "condition": {
+        "service": {
+          "id": "dwarfener",
+          "value": 2500
+        }
+      },
+      "target": {
+        "service": "dwarfener",
+        "factor": 0.96
+      }
+    },
+    {
+      "_id": "id32",
+      "name": "НКО",
+      "description": "Скидка всем подтвердившим статус НКО. Перекрывает ВСЕ остальные скидки. Если эта скидка срабатывает, остальные можно не вычислять. Т.е. если на уровне 0 находится какая-лидо скидка для выданных условий, просто суммируем корзину и применяем к сумме указанный множитель, после чего прекращаем процесс рассчёта",
+      "сonditionType": "userType",
+      "layer": 0,
+      "condition": {
+        "userType": "nko"
+      },
+      "target": {
+        "IsAllProducts": true,
+        "factor": 0.2
+      },
+      "overwhelm": true
+    },
+    {
+      "_id": "id33",
+      "name": "Промокод На АБ тесты",
+      "description": "Скидка, полученная конкретным юзером, после введения промокода. Заменяет собой не промокодовую",
+      "сonditionType": "user",
+      "layer": 1,
+      "condition": {
+        "coupon": "AB\\CD", // на мой вкус, стоит при активации промокода создавать скидку, привязанную к юзеру по айдишнику, и удалять после использования. т.е. кондишн не по coupon, а по
+        "user": "buddy"
+      },
+      "target": {
+        "products": [
+          {
+            "productId": "p6",
+            "factor": 0.5
+          }
+        ]
+      },
+      "overwhelm": true
+    }
+  ],
+  "testCases": [
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "",
+          "PurchasesAmount": 0
+        },
+        "Products": [
+          {
+            "ID": "p1",
+            "Amount": 1, // нужно ввести количество, потому что у нас может смениться стоимость одной единицы привилегии, но при этом не поменяться логика скидки, потому что она привязана к количеству единиц привилегии. т.е. чтобы при изменении цены не появились скидки "от 27 дней безлимита" или "от 117 генераций"
+            "Price": 1.0 // если указан прайс, то слои 1 и 2 не применяются, если они overwhelm == false. Т.е. промокоды и скидки на тип юзера всё ещё работают. необходимо для функционирования тарифов, созданных менеджером. для пущщей понятности, тариф создаётся в рамках одного сервиса и если взят готовый тариф, то кастомный на этот сервис сделать уже нельзя, следуя логике "если тебя не устраивает готовый тариф - делай кастомный, не нужно брать готовый и добирать туда недостающего в рамках одной оплаты". как вариант, можно всегда передавать прайс, просто добавить поле кастом. короче, предложенное решение может быть неоптимальным, приведено оно только для того, чтобы показать возможный сценарий.
+          },
+          {
+            "ID": "p2",
+            "Amount": 1,
+            "Price": 2.0
+          }
+        ]
+      },
+      "expect": {
+        "price": 3.0,
+        "envolvedDiscounts": []
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "",
+          "PurchasesAmount": 3.0
+        },
+        "Products": [
+          {
+            "ID": "p1",
+            "Amount": 40,
+            "Price": 2000.0
+          },
+          {
+            "ID": "p2",
+            "Amount": 450,
+            "Price": 3000.0
+          }
+        ]
+      },
+      "expect": {
+        "price": 4925.0,
+        "envolvedDiscounts": ["id4"] // сумма в корзине достигла 5к, поэтому применилась скидка
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "",
+          "PurchasesAmount": 4928.0
+        },
+        "Products": [
+          {
+            "ID": "p1",
+            "Amount": 40,
+            "Price": 2000.0
+          },
+          {
+            "ID": "p2",
+            "Amount": 450,
+            "Price": 3000.0
+          },
+          {
+            "ID": "p3",
+            "Amount": 35
+          }
+        ]
+      },
+      "expect": {
+        "price": 5025.32,
+        "envolvedDiscounts": ["id4", "id11"] // добавил кастомный тариф такой, чтобы пофвилась скидка на продукт
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "",
+          "PurchasesAmount": 9953.32
+        },
+        "Products": [
+          {
+            "ID": "p1",
+            "Amount": 40,
+            "Price": 2000.0
+          },
+          {
+            "ID": "p2",
+            "Amount": 450,
+            "Price": 3000.0
+          },
+          {
+            "ID": "p3",
+            "Amount": 35
+          },
+          {
+            "ID": "p4",
+            "Amount": 210
+          }
+        ]
+      },
+      "expect": {
+        "price": 5223.9,
+        "envolvedDiscounts": ["id4", "id11", "id15"] // т.е. применилась не id14, а id15, потому что применяется наибольшая подходящая. в то же время, на скидку за лояльность ещё не хватает
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "",
+          "PurchasesAmount": 15177.22 // округляю до копеек
+        },
+        "Products": [
+          {
+            "ID": "p1",
+            "Amount": 40,
+            "Price": 2000.0
+          },
+          {
+            "ID": "p2",
+            "Amount": 450,
+            "Price": 3000.0
+          },
+          {
+            "ID": "p3",
+            "Amount": 35
+          },
+          {
+            "ID": "p4",
+            "Amount": 210
+          }
+        ]
+      },
+      "expect": {
+        "price": 5171.66,
+        "envolvedDiscounts": ["id4", "id11", "id15", "id1"]
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "",
+          "PurchasesAmount": 20348.88
+        },
+        "Products": [
+          {
+            "ID": "p5",
+            "Amount": 300
+          },
+          {
+            "ID": "p6",
+            "Amount": 100
+          },
+          {
+            "ID": "p7",
+            "Amount": 200
+          }
+        ]
+      },
+      "expect": {
+        "price": 422.28,
+        "envolvedDiscounts": ["id19", "id23", "id25", "id1"] // история про то, как скидки за привилегии помешали получить скидку за сервис
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "dude",
+          "Type": "",
+          "PurchasesAmount": 0.0
+        },
+        "Products": [
+          {
+            "ID": "p5",
+            "Amount": 300
+          },
+          {
+            "ID": "p6",
+            "Amount": 100
+          },
+          {
+            "ID": "p7",
+            "Amount": 200
+          }
+        ]
+      },
+      "expect": {
+        "price": 426.55,
+        "envolvedDiscounts": ["id19", "id23", "id25"] // то же что и выше, но без лояльности
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "",
+          "PurchasesAmount": 20771.16
+        },
+        "Products": [
+          {
+            "ID": "p5",
+            "Amount": 300
+          },
+          {
+            "ID": "p6",
+            "Amount": 100
+          },
+          {
+            "ID": "p7",
+            "Amount": 400
+          }
+        ]
+      },
+      "expect": {
+        "price": 750.96,
+        "envolvedDiscounts": ["id19", "id23", "id25", "id30", "id1"] // история про то, как получилось получить скидку за сервис
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "",
+          "PurchasesAmount": 21522.12
+        },
+        "Products": [
+          {
+            "ID": "p1",
+            "Amount": 3000
+          },
+          {
+            "ID": "p2",
+            "Amount": 3000
+          },
+          {
+            "ID": "p5",
+            "Amount": 300
+          },
+          {
+            "ID": "p6",
+            "Amount": 100
+          },
+          {
+            "ID": "p7",
+            "Amount": 400
+          }
+        ]
+      },
+      "expect": {
+        "price": 2398.53,
+        "envolvedDiscounts": ["id8.rev", "id10", "id19", "id23", "id25", "id26", "id30", "id1"] // две скидки за сервис
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "",
+          "PurchasesAmount": 23920.65
+        },
+        "Products": [
+          {
+            "ID": "p1",
+            "Amount": 3000
+          },
+          {
+            "ID": "p2",
+            "Amount": 3000
+          },
+          {
+            "ID": "p5",
+            "Amount": 300
+          },
+          {
+            "ID": "p6",
+            "Amount": 100
+          },
+          {
+            "ID": "p7",
+            "Amount": 400
+          }
+        ]
+      },
+      "expect": {
+        "price": 2368.68,
+        "envolvedDiscounts": ["id8.rev", "id10", "id19", "id33", "id25", "id26", "id30", "id1"] // юзер использовал промокод id33. он заменяет скидку на p6 собой. в один момент времени может быть активирован только 1 промокод, т.е. после активации следующего, предыдущий заменяется. но в промокоде может быть несколько скидок. промокоды имеют скидки только на привелеги
+      }
+    },
+    {
+      "input": {
+        "UserInformation": {
+          "ID": "buddy",
+          "Type": "nko",
+          "PurchasesAmount": 26289.33
+        },
+        "Products": [
+          {
+            "ID": "p1",
+            "Amount": 3000
+          },
+          {
+            "ID": "p2",
+            "Amount": 3000
+          },
+          {
+            "ID": "p5",
+            "Amount": 300
+          },
+          {
+            "ID": "p6",
+            "Amount": 100
+          },
+          {
+            "ID": "p7",
+            "Amount": 400
+          }
+        ]
+      },
+      "expect": {
+        "price": 540, // сложил всю корзину и умножил на показатель скидки
+        "envolvedDiscounts": ["id30"] // юзер подтвердил свой статус НКО, поэтому, не смотря на то что он достиг по лояльности уровня скидки id2, она не применилась, а применилась id32
+      }
+    }
+  ]
+}

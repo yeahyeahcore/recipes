@@ -1,0 +1,486 @@
+[
+  {
+    "insert": "discounts",
+    "ordered": true,
+    "documents": [
+      {
+        "layer": 4,
+        "name": "Лояльность 1",
+        "description": "постоянная скидка для юзеров, внёсших на проект от 10 000 рублей. Применяется на итоговую сумму, после скидок за сумму в корзине",
+        "condition": {
+          "purchasesAmount": 10000
+        },
+        "target": {
+          "factor": 0.99
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Лояльность 2",
+        "description": "постоянная скидка для юзеров, внёсших на проект от 25 000 рублей. Применяется на итоговую сумму, после скидок за сумму в корзине",
+        "layer": 4,
+        "condition": {
+          "purchasesAmount": 25000
+        },
+        "target": {
+          "factor": 0.99
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Лояльность 3",
+        "description": "постоянная скидка для юзеров, внёсших на проект от 50 000 рублей. Применяется на итоговую сумму, после скидок за сумму в корзине",
+        "layer": 4,
+        "condition": {
+          "purchasesAmount": 50000
+        },
+        "target": {
+          "factor": 0.975
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Корзина 1",
+        "description": "Скидка на размер корзины от 5 000 р. Применяется на итоговую сумму, после суммирования корзины",
+        "layer": 3,
+        "condition": {
+          "cartPurchasesAmount": 5000
+        },
+        "target": {
+          "scope": "sum",
+          "factor": 0.985
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Корзина 2",
+        "description": "Скидка на размер корзины от 50 000 р. Применяется на итоговую сумму, после суммирования корзины",
+        "layer": 3,
+        "condition": {
+          "cartPurchasesAmount": 50000
+        },
+        "target": {
+          "scope": "sum",
+          "factor": 0.965
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "НКО",
+        "description": "Скидка всем подтвердившим статус НКО. Перекрывает ВСЕ остальные скидки. Если эта скидка срабатывает, остальные можно не вычислять. Т.е. если на уровне 0 находится какая-лидо скидка для выданных условий, просто суммируем корзину и применяем к сумме указанный множитель, после чего прекращаем процесс рассчёта",
+        "layer": 1,
+        "condition": {
+          "userType": "nko"
+        },
+        "target": {
+          "scope": "sum",
+          "factor": 0.2,
+          "overhelm": true
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Промокод На АБ тесты",
+        "description": "Скидка, полученная конкретным юзером, после введения промокода. Заменяет собой не промокодовую",
+        "layer": 2,
+        "condition": {
+          "coupon": "coupon1",
+          "user": "buddy"
+        },
+        "target": {
+          "overhelm": true,
+          "scope": "each",
+          "products": [
+            {
+              "productId": "p6",
+              "factor": 0.5
+            }
+          ]
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Новогодняя скидка",
+        "description": "",
+        "layer": 3,
+        "condition": {
+          "period": {
+            "from": "2022-12-31T00:00:00.000Z",
+            "to": "2024-01-01T00:00:00.000Z"
+          }
+        },
+        "target": {
+          "scope": "each",
+          "products": [
+            {
+              "productId": "p1",
+              "factor": 0.965
+            },
+            {
+              "productId": "p2",
+              "factor": 0.5
+            },
+            {
+              "productId": "p3",
+              "factor": 0.8
+            },
+            {
+              "productId": "p4",
+              "factor": 0.95
+            }
+          ]
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Скидка на определённого пользователя",
+        "description": "",
+        "layer": 3,
+        "condition": {
+          "user": "another_buddy"
+        },
+        "target": {
+          "scope": "sum",
+          "factor": 0.95
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Анлим Шабло 1",
+        "description": "Скидка на количество безлимитных дней работы от 30 дней",
+        "layer": 3,
+        "condition": {
+          "term": 30,
+          "product": "p1"
+        },
+        "target": {
+          "scope": "each",
+          "products": [
+            {
+              "productId": "p1",
+              "factor": 0.975
+            }
+          ]
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Анлим Шабло 2",
+        "description": "Скидка на количество безлимитных дней работы от 90 дней",
+        "layer": 3,
+        "condition": {
+          "term": 90,
+          "product": "p1"
+        },
+        "target": {
+          "scope": "each",
+          "products": [
+            {
+              "productId": "p1",
+              "factor": 0.975
+            }
+          ]
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Анлим Шабло 3",
+        "description": "Скидка на количество безлимитных дней работы от 180 дней",
+        "layer": 1,
+        "condition": {
+          "term": 180,
+          "product": "p1"
+        },
+        "target": {
+          "scope": "each",
+          "products": [
+            {
+              "productId": "p1",
+              "factor": 0.93
+            }
+          ]
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Генерации Шабло 1",
+        "description": "Скидка на количество генераций от 100 шт",
+        "layer": 3,
+        "condition": {
+          "usage": 100,
+          "product": "p2"
+        },
+        "target": {
+          "scope": "each",
+          "products": [
+            {
+              "productId": "p2",
+              "factor": 0.995
+            }
+          ]
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Генерации Шабло 2",
+        "description": "Скидка на количество генераций от 350 шт",
+        "layer": 3,
+        "condition": {
+          "usage": 350,
+          "product": "p2"
+        },
+        "target": {
+          "scope": "each",
+          "products": [
+            {
+              "productId": "p2",
+              "factor": 0.98
+            }
+          ]
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Генерации Шабло 3",
+        "description": "Скидка на количество генераций от 500 шт",
+        "layer": 3,
+        "condition": {
+          "usage": 500,
+          "product": "p2"
+        },
+        "target": {
+          "scope": "each",
+          "products": [
+            {
+              "productId": "p2",
+              "factor": 0.945
+            }
+          ]
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Шаблонизатор 1",
+        "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису шаблонизации, от 1000 р",
+        "layer": 3,
+        "condition": {
+          "group": "templategen",
+          "priceFrom": 1000
+        },
+        "target": {
+          "scope": "group",
+          "group": "templategen",
+          "factor": 0.996
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Шаблонизатор 2",
+        "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису шаблонизации, от 5000 р",
+        "layer": 3,
+        "condition": {
+          "group": "templategen",
+          "priceFrom": 5000
+        },
+        "target": {
+          "scope": "group",
+          "group": "templategen",
+          "factor": 0.983
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Опросник 1",
+        "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису опросника, от 2000 р",
+        "layer": 3,
+        "condition": {
+          "group": "squiz",
+          "priceFrom": 2000
+        },
+        "target": {
+          "scope": "group",
+          "group": "squiz",
+          "factor": 0.983
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Опросник 2",
+        "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису опросника, от 6000 р",
+        "layer": 3,
+        "condition": {
+          "group": "squiz",
+          "priceFrom": 6000
+        },
+        "target": {
+          "scope": "group",
+          "group": "squiz",
+          "factor": 0.969
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Сокращатель 1",
+        "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису сокращателя, от 500 р",
+        "layer": 3,
+        "condition": {
+          "group": "dwarfener",
+          "priceFrom": 500
+        },
+        "target": {
+          "scope": "group",
+          "group": "dwarfener",
+          "factor": 0.99
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "name": "Сокращатель 2",
+        "description": "Скидка на сумму стоимостей товаров, принадлежащих сервису сокращателя, от 2500 р",
+        "layer": 3,
+        "condition": {
+          "group": "dwarfener",
+          "priceFrom": 2500
+        },
+        "target": {
+          "scope": "group",
+          "group": "dwarfener",
+          "factor": 0.96
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      },
+      {
+        "_id":  {
+          "$oid": "641b2d73e0e07a7e90b59616"
+        },
+        "name": "Анлим Квиз 1",
+        "description": "Скидка на количество дней безлимитного использования опросника, от 30 дней",
+        "layer": 3,
+        "condition": {
+          "term": 30,
+          "product": "p3"
+        },
+        "target": {
+          "scope": "each",
+          "products": [
+            {
+              "productId": "p3",
+              "factor": 0.97
+            }
+          ]
+        },
+        "deprecated": false,
+        "audit": {
+          "createdAt": "2022-12-31T00:00:00.000Z",
+          "updatedAt": "2022-12-31T00:00:00.000Z",
+          "deleted": false
+        }
+      }
+    ]
+  }
+]

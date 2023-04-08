@@ -1,0 +1,12 @@
+version: v1beta1
+plugins:
+  - name: go
+    out: internal/proto
+  - name: go-grpc
+    out: internal/proto
+    opt:
+      - require_unimplemented_servers=false
+  - name: grpc-gateway
+    out: internal/proto
+  - name: openapiv2
+    out: internal/proto

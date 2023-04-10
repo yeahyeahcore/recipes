@@ -45,7 +45,7 @@ RUN apk --no-cache add ca-certificates
 # Create home directory
 WORKDIR /app
 # Copy migration dir
-COPY --from=build /app/migrations/tests ./migrations
+COPY --from=build /app/migrations/test ./migrations
 # Install migrate tool
 COPY --from=build /bin/golang-migrate /usr/local/bin
 

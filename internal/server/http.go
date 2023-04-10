@@ -46,6 +46,7 @@ func (receiver *HTTP) Register(controllers *initialize.Controllers, dist string)
 	recipeGroup := receiver.echo.Group("/recipe")
 	{
 		recipeGroup.GET("/all", controllers.RecipeController.GetAll)
+		recipeGroup.GET("/:id", controllers.RecipeController.GetByID)
 	}
 
 	return receiver

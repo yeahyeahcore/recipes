@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"database/sql"
 	"sync"
 	"time"
 
@@ -44,7 +45,7 @@ func NewRecipeService(deps *RecipeServiceDeps) *RecipeService {
 func (receiver *RecipeService) GetAll(ctx context.Context) ([]models.Recipe, error) {
 	recipes, err := receiver.recipeRepository.GetAll(ctx)
 	if err != nil {
-		receiver.logger.Errorf("failed to get all recipes on <RecipeService>: %w", err)
+		receiver.logger.Errorf("failed to get all recipes on <RecipeService>: %v", err)
 		return []models.Recipe{}, err
 	}
 
@@ -60,7 +61,7 @@ func (receiver *RecipeService) GetByID(ctx context.Context, id uint) (*models.Re
 func (receiver *RecipeService) GetByIngredients(ctx context.Context, ingredients []string) ([]models.Recipe, error) {
 	recipes, err := receiver.recipeRepository.GetByIngredients(ctx, ingredients)
 	if err != nil {
-		receiver.logger.Errorf("failed to get recipes by ingredients on <RecipeService>: %w", err)
+		receiver.logger.Errorf("failed to get recipes by ingredients on <RecipeService>: %v", err)
 		return []models.Recipe{}, err
 	}
 
@@ -72,7 +73,7 @@ func (receiver *RecipeService) GetByIngredients(ctx context.Context, ingredients
 func (receiver *RecipeService) GetByTotalStepsTime(ctx context.Context, totalTime time.Duration) ([]models.Recipe, error) {
 	recipes, err := receiver.recipeRepository.GetByTotalStepsTime(ctx, totalTime)
 	if err != nil {
-		receiver.logger.Errorf("failed to get recipes by total steps time on <RecipeService>: %w", err)
+		receiver.logger.Errorf("failed to get recipes by total steps time on <RecipeService>: %v", err)
 		return []models.Recipe{}, err
 	}
 
@@ -91,23 +92,26 @@ func (receiver *RecipeService) SetRecipePhoto(ctx context.Context, request *mode
 
 	recipe, err := receiver.GetByID(ctx, request.RecipeID)
 	if err != nil {
-		receiver.logger.Errorf("failed to get receiver by id on <SetRecipePhoto>: %w", err)
+		receiver.logger.Errorf("failed to get receiver by id on <SetRecipePhoto>: %v", err)
 		return err
 	}
 
 	filepath, err := receiver.fileService.FormFilePath(request.Photo.Filename)
 	if err != nil {
-		receiver.logger.Errorf("failed to form file path on <SetRecipePhoto>: %w", err)
+		receiver.logger.Errorf("failed to form file path on <SetRecipePhoto>: %v", err)
 		return ErrInternal
 	}
 
-	recipe.PhotoURL = filepath
+	recipe.PhotoURL = sql.NullString{
+		String: filepath,
+		Valid:  true,
+	}
 
 	waitGroup.Add(2)
 
 	go func() {
 		if err := receiver.recipeRepository.Update(ctx, recipe); err != nil {
-			receiver.logger.Errorf("failed to update recipe on <SetRecipePhoto>: %w", err)
+			receiver.logger.Errorf("failed to update recipe on <SetRecipePhoto>: %v", err)
 		}
 		waitGroup.Done()
 	}()
@@ -117,7 +121,7 @@ func (receiver *RecipeService) SetRecipePhoto(ctx context.Context, request *mode
 			Fileheader: request.Photo,
 			Path:       filepath,
 		}); err != nil {
-			receiver.logger.Errorf("failed to save file on <SetRecipePhoto>: %w", err)
+			receiver.logger.Errorf("failed to save file on <SetRecipePhoto>: %v", err)
 		}
 	}()
 
@@ -136,13 +140,13 @@ func (receiver *RecipeService) SetRecipeStepPhoto(ctx context.Context, request *
 
 	recipe, err := receiver.GetByID(ctx, request.RecipeID)
 	if err != nil {
-		receiver.logger.Errorf("failed to get receiver by id on <SetRecipeStepPhoto>: %w", err)
+		receiver.logger.Errorf("failed to get receiver by id on <SetRecipeStepPhoto>: %v", err)
 		return err
 	}
 
 	filepath, err := receiver.fileService.FormFilePath(request.Photo.Filename)
 	if err != nil {
-		receiver.logger.Errorf("failed to form file path on <SetRecipeStepPhoto>: %w", err)
+		receiver.logger.Errorf("failed to form file path on <SetRecipeStepPhoto>: %v", err)
 		return ErrInternal
 	}
 
@@ -150,13 +154,16 @@ func (receiver *RecipeService) SetRecipeStepPhoto(ctx context.Context, request *
 		return uint(index) == request.RecipeIndex
 	})
 
-	recipe.Steps[indexOfRecipeStep].PhotoURL = filepath
+	recipe.Steps[indexOfRecipeStep].PhotoURL = sql.NullString{
+		String: filepath,
+		Valid:  true,
+	}
 
 	waitGroup.Add(2)
 
 	go func() {
 		if err := receiver.recipeRepository.Update(ctx, recipe); err != nil {
-			receiver.logger.Errorf("failed to update recipe on <SetRecipeStepPhoto>: %w", err)
+			receiver.logger.Errorf("failed to update recipe on <SetRecipeStepPhoto>: %v", err)
 		}
 		waitGroup.Done()
 	}()
@@ -166,7 +173,7 @@ func (receiver *RecipeService) SetRecipeStepPhoto(ctx context.Context, request *
 			Fileheader: request.Photo,
 			Path:       filepath,
 		}); err != nil {
-			receiver.logger.Errorf("failed to save file on <SetRecipeStepPhoto>: %w", err)
+			receiver.logger.Errorf("failed to save file on <SetRecipeStepPhoto>: %v", err)
 		}
 	}()
 
@@ -178,7 +185,7 @@ func (receiver *RecipeService) SetRecipeStepPhoto(ctx context.Context, request *
 func (receiver *RecipeService) Create(ctx context.Context, recipe *models.Recipe) (*models.Recipe, error) {
 	createdRecipeID, err := receiver.recipeRepository.Create(ctx, recipe)
 	if err != nil {
-		receiver.logger.Errorf("failed to create recipe on <Create> of <RecipeService>: %w", err)
+		receiver.logger.Errorf("failed to create recipe on <Create> of <RecipeService>: %v", err)
 		return nil, err
 	}
 
@@ -189,7 +196,7 @@ func (receiver *RecipeService) Create(ctx context.Context, recipe *models.Recipe
 
 func (receiver *RecipeService) Update(ctx context.Context, recipe *models.Recipe) (*models.Recipe, error) {
 	if err := receiver.recipeRepository.Update(ctx, recipe); err != nil {
-		receiver.logger.Errorf("failed to update recipe on <Update> of <RecipeService>: %w", err)
+		receiver.logger.Errorf("failed to update recipe on <Update> of <RecipeService>: %v", err)
 		return nil, err
 	}
 

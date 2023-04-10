@@ -15,7 +15,6 @@ POSTGRES_DB_PORT            - порт базы данных
 POSTGRES_DB_USER            - имя пользователя базы данных для авторизации
 POSTGRES_DB_PASSWORD        - пароль пользователя базы данных для авторизации
 POSTGRES_DB_NAME            - название базы данных, к которой будет идти подключение
-POSTGRES_DB_SSLMODE         - sslmode
 ```
 
 ## Пример переменных окружения:
@@ -31,7 +30,6 @@ POSTGRES_DB_PORT=5432
 POSTGRES_DB_USER=test
 POSTGRES_DB_PASSWORD=test
 POSTGRES_DB_NAME=recipes
-POSTGRES_DB_SSLMODE=false
 
 ```
 

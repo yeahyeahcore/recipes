@@ -9,6 +9,7 @@ import (
 	formatter "github.com/antonfisher/nested-logrus-formatter"
 	"github.com/sirupsen/logrus"
 
+	"github.com/yeahyeahcore/recipes/internal/app"
 	"github.com/yeahyeahcore/recipes/internal/models"
 	"github.com/yeahyeahcore/recipes/pkg/env"
 )
@@ -27,9 +28,10 @@ func main() {
 		},
 	})
 
-	_, err := env.Parse[models.Config](".env")
+	config, err := env.Parse[models.Config](".env")
 	if err != nil {
 		logger.Fatalf("config read is failed: %s", err)
 	}
 
+	app.Run(config, logger)
 }

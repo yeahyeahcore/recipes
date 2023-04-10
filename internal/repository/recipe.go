@@ -46,7 +46,7 @@ func (receiver *RecipeRepository) Create(ctx context.Context, recipe *models.Rec
 		pq.Array(recipe.Steps),
 		utils.CalculateTotalStepsTime(recipe.Steps),
 	).Scan(&insertedID); err != nil {
-		receiver.logger.Errorf("failed to scan created recipe recipe: %w", err)
+		receiver.logger.Errorf("failed to scan created recipe recipe: %v", err)
 		return 0, ErrScanRecord
 	}
 
@@ -74,7 +74,7 @@ func (receiver *RecipeRepository) Update(ctx context.Context, recipe *models.Rec
 		recipe.ID,
 	)
 	if err != nil {
-		receiver.logger.Errorf("failed to update recipe: %w", err)
+		receiver.logger.Errorf("failed to update recipe: %v", err)
 		return ErrUpdateRecord
 	}
 
@@ -86,7 +86,7 @@ func (receiver *RecipeRepository) GetAll(ctx context.Context) ([]models.Recipe, 
 
 	rows, err := receiver.db.Query(ctx, "SELECT * FROM recipes WHERE NOT deleted")
 	if err != nil {
-		receiver.logger.Errorf("failed to query all recipes: %w", err)
+		receiver.logger.Errorf("failed to query all recipes: %v", err)
 		return recipes, ErrGetRecord
 	}
 
@@ -108,7 +108,7 @@ func (receiver *RecipeRepository) GetAll(ctx context.Context) ([]models.Recipe, 
 			&recipe.CreatedAt,
 			&recipe.Deleted,
 		); err != nil {
-			receiver.logger.Errorf("failed to scan all recipes: %w", err)
+			receiver.logger.Errorf("failed to scan all recipes: %v", err)
 			return recipes, ErrScanRecord
 		}
 
@@ -116,7 +116,7 @@ func (receiver *RecipeRepository) GetAll(ctx context.Context) ([]models.Recipe, 
 	}
 
 	if err := rows.Err(); err != nil {
-		receiver.logger.Errorf("failed to iterate all recipes: %w", err)
+		receiver.logger.Errorf("failed to iterate all recipes: %v", err)
 		return recipes, ErrIterateRows
 	}
 
@@ -126,24 +126,25 @@ func (receiver *RecipeRepository) GetAll(ctx context.Context) ([]models.Recipe, 
 func (receiver *RecipeRepository) GetByID(ctx context.Context, id uint) (*models.Recipe, error) {
 	recipe := models.Recipe{}
 
-	if err := receiver.db.QueryRow(ctx, "SELECT * FROM recipe WHERE id = $1 AND deleted = false", id).Scan(
+	if err := receiver.db.QueryRow(ctx, "SELECT * FROM recipes WHERE id = $1 AND deleted = false", id).Scan(
 		&recipe.ID,
 		&recipe.Name,
 		&recipe.Description,
 		&recipe.PhotoURL,
 		&recipe.Ingredients,
 		&recipe.Steps,
+		&recipe.TotalStepsTime,
 		&recipe.UpdatedAt,
 		&recipe.DeletedAt,
 		&recipe.CreatedAt,
 		&recipe.Deleted,
 	); err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			receiver.logger.Errorf("no recipe with <%d> id in db: %w", id, err)
+			receiver.logger.Errorf("no recipe with <%d> id in db: %v", id, err)
 			return nil, ErrNoRecord
 		}
 
-		receiver.logger.Errorf("failed to get recipe by <%d> id: %w", id, err)
+		receiver.logger.Errorf("failed to get recipe by <%d> id: %v", id, err)
 		return nil, ErrGetRecord
 	}
 
@@ -163,7 +164,7 @@ func (receiver *RecipeRepository) GetByIngredients(ctx context.Context, ingredie
 		pq.Array(ingredients),
 	)
 	if err != nil {
-		receiver.logger.Errorf("failed to get recipes by ingredients: %w", err)
+		receiver.logger.Errorf("failed to get recipes by ingredients: %v", err)
 		return recipes, ErrGetRecord
 	}
 
@@ -185,7 +186,7 @@ func (receiver *RecipeRepository) GetByIngredients(ctx context.Context, ingredie
 			&recipe.CreatedAt,
 			&recipe.Deleted,
 		); err != nil {
-			receiver.logger.Errorf("failed to scan recipes by ingredients: %w", err)
+			receiver.logger.Errorf("failed to scan recipes by ingredients: %v", err)
 			return recipes, ErrScanRecord
 		}
 
@@ -193,7 +194,7 @@ func (receiver *RecipeRepository) GetByIngredients(ctx context.Context, ingredie
 	}
 
 	if err := rows.Err(); err != nil {
-		receiver.logger.Errorf("failed to iterate recipes by ingredients: %w", err)
+		receiver.logger.Errorf("failed to iterate recipes by ingredients: %v", err)
 		return recipes, ErrIterateRows
 	}
 
@@ -205,7 +206,7 @@ func (receiver *RecipeRepository) GetByTotalStepsTime(ctx context.Context, total
 
 	rows, err := receiver.db.Query(ctx, "SELECT * FROM recipes WHERE NOT deleted AND total_steps_time <= $1", totalTime)
 	if err != nil {
-		receiver.logger.Errorf("failed to get recipes by total steps time: %w", err)
+		receiver.logger.Errorf("failed to get recipes by total steps time: %v", err)
 		return recipes, ErrGetRecord
 	}
 
@@ -226,7 +227,7 @@ func (receiver *RecipeRepository) GetByTotalStepsTime(ctx context.Context, total
 			&recipe.CreatedAt,
 			&recipe.Deleted,
 		); err != nil {
-			receiver.logger.Errorf("failed to scan recipes by total steps time: %w", err)
+			receiver.logger.Errorf("failed to scan recipes by total steps time: %v", err)
 			return recipes, ErrScanRecord
 		}
 
@@ -234,7 +235,7 @@ func (receiver *RecipeRepository) GetByTotalStepsTime(ctx context.Context, total
 	}
 
 	if err := rows.Err(); err != nil {
-		receiver.logger.Errorf("failed to iterate recipes by total steps time: %w", err)
+		receiver.logger.Errorf("failed to iterate recipes by total steps time: %v", err)
 		return recipes, ErrIterateRows
 	}
 
@@ -248,7 +249,7 @@ func (receiver *RecipeRepository) Delete(ctx context.Context, id uint) error {
 		deleted = true 
 		WHERE id = $1 AND NOT deleted
 	`, id); err != nil {
-		receiver.logger.Errorf("failed to delete recipe by <%d> id: %w", id, err)
+		receiver.logger.Errorf("failed to delete recipe by <%d> id: %v", id, err)
 		return ErrDeleteRecord
 	}
 

@@ -1,3 +1,5 @@
+//go:build integration
+
 package integration_test
 
 import (
@@ -20,9 +22,9 @@ func TestGetAllRecipes(t *testing.T) {
 
 	resty := resty.New()
 
-	resty.BaseURL = fmt.Sprintf("%s:%s", config.HTTP.Host, config.HTTP.Port)
+	address := fmt.Sprintf("http://%s:%s/recipe", config.HTTP.Host, config.HTTP.Port)
 
-	recipes, err := client.Get("/all", &client.RequestSettings[[]models.Recipe]{
+	recipes, err := client.Get(fmt.Sprintf("%s/all", address), &client.RequestSettings[[]models.Recipe]{
 		Driver: resty,
 	})
 

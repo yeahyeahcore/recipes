@@ -6,5 +6,4 @@ type Configuration struct {
 	User         string `env:"POSTGRES_DB_USER,required"`
 	Password     string `env:"POSTGRES_DB_PASSWORD,required"`
 	DatabaseName string `env:"POSTGRES_DB_NAME,required"`
-	SSLMode      bool   `env:"POSTGRES_DB_SSLMODE,default=false"`
 }

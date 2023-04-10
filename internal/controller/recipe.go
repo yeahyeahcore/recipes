@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -39,7 +40,7 @@ func NewRecipeController(logger *logrus.Logger, service recipeService) *RecipeCo
 func (receiver *RecipeController) CreateRecipe(ctx echo.Context) error {
 	request, err := json.Parse[models.Recipe](ctx.Request().Body)
 	if err != nil {
-		receiver.logger.Errorf("failed to parse request body on <CreateRecipe>: %w", err)
+		receiver.logger.Errorf("failed to parse request body on <CreateRecipe>: %v", err)
 		return response(ctx, "failed to parse request body on <CreateRecipe>", err)
 	}
 
@@ -54,7 +55,7 @@ func (receiver *RecipeController) CreateRecipe(ctx echo.Context) error {
 func (receiver *RecipeController) UpdateRecipe(ctx echo.Context) error {
 	request, err := json.Parse[models.Recipe](ctx.Request().Body)
 	if err != nil {
-		receiver.logger.Errorf("failed to parse request body on <UpdateRecipe>: %w", err)
+		receiver.logger.Errorf("failed to parse request body on <UpdateRecipe>: %v", err)
 		return response(ctx, "failed to parse request body on <UpdateRecipe>", err)
 	}
 
@@ -85,7 +86,7 @@ func (receiver *RecipeController) GetByID(ctx echo.Context) error {
 
 	recipes, err := receiver.service.GetByID(ctx.Request().Context(), uint(id))
 	if err != nil {
-		return response(ctx, "failed to get all recipes", err)
+		return response(ctx, fmt.Sprintf("failed to get recipe with <%d> id", id), err)
 	}
 
 	return ctx.JSON(http.StatusOK, recipes)
@@ -119,19 +120,19 @@ func (receiver *RecipeController) GetByTotalStepsTime(ctx echo.Context) error {
 func (receiver *RecipeController) SetRecipeStepPhoto(ctx echo.Context) error {
 	recipeID, err := strconv.Atoi(ctx.Param("recipeID"))
 	if err != nil {
-		receiver.logger.Errorf("failed to parse recipe id: %w", err)
+		receiver.logger.Errorf("failed to parse recipe id: %v", err)
 		return response(ctx, "invalid recipe id", ErrInvalidParam)
 	}
 
 	stepIndex, err := strconv.Atoi(ctx.Param("stepIndex"))
 	if err != nil {
-		receiver.logger.Errorf("failed to parse step index: %w", err)
+		receiver.logger.Errorf("failed to parse step index: %v", err)
 		return response(ctx, "invalid step index", ErrInvalidParam)
 	}
 
 	file, err := ctx.FormFile("photo")
 	if err != nil {
-		receiver.logger.Errorf("failed to get file: %w", err)
+		receiver.logger.Errorf("failed to get file: %v", err)
 		return response(ctx, "failed to get file", ErrInvalidParam)
 	}
 
@@ -140,7 +141,7 @@ func (receiver *RecipeController) SetRecipeStepPhoto(ctx echo.Context) error {
 		RecipeIndex: uint(stepIndex),
 		Photo:       file,
 	}); err != nil {
-		receiver.logger.Errorf("failed to set photo to recipe step: %w", err)
+		receiver.logger.Errorf("failed to set photo to recipe step: %v", err)
 		return response(ctx, "failed to set photo to recipe step", err)
 	}
 
@@ -150,13 +151,13 @@ func (receiver *RecipeController) SetRecipeStepPhoto(ctx echo.Context) error {
 func (receiver *RecipeController) SetRecipePhoto(ctx echo.Context) error {
 	recipeID, err := strconv.Atoi(ctx.Param("recipeID"))
 	if err != nil {
-		receiver.logger.Errorf("failed to parse recipe id: %w", err)
+		receiver.logger.Errorf("failed to parse recipe id: %v", err)
 		return response(ctx, "invalid recipe id", ErrInvalidParam)
 	}
 
 	file, err := ctx.FormFile("photo")
 	if err != nil {
-		receiver.logger.Errorf("failed to get file: %w", err)
+		receiver.logger.Errorf("failed to get file: %v", err)
 		return response(ctx, "failed to get file", ErrInvalidParam)
 	}
 
@@ -164,7 +165,7 @@ func (receiver *RecipeController) SetRecipePhoto(ctx echo.Context) error {
 		RecipeID: uint(recipeID),
 		Photo:    file,
 	}); err != nil {
-		receiver.logger.Errorf("failed to set photo to recipe: %w", err)
+		receiver.logger.Errorf("failed to set photo to recipe: %v", err)
 		return response(ctx, "failed to set photo to recipe", err)
 	}
 

@@ -1,0 +1,1 @@
+DROP INDEX IF EXISTS recipes_total_steps_time_idx;

@@ -9,8 +9,7 @@ services:
     env_file:
       - ../../.env.test
     ports:
-      - 9001:9001
-      - 8001:8001
+      - 8000:8000
     depends_on:
       - migration
     networks:
@@ -25,20 +24,21 @@ services:
       [
         "sh",
         "-c",
-        'migrate -source file://migrations -database "mongodb://$MONGO_USER:$MONGO_PASSWORD@$MONGO_HOST:$MONGO_PORT/$MONGO_AUTH?authSource=$MONGO_AUTH" up',
+        'migrate -source file://migrations -database "postgres://$POSTGRES_DB_USER:$POSTGRES_DB_PASSWORD@$POSTGRES_DB_HOST:$POSTGRES_DB_PORT/$POSTGRES_DB_NAME?sslmode=$POSTGRES_DB_SSLMODE" up',
       ]
     depends_on:
-      - mongo
+      - database
     networks:
       - integration_test
 
-  mongo:
-    image: 'mongo:6.0.3'
+  database:
+    image: 'postgres:alpine3.17'
     environment:
-      MONGO_INITDB_ROOT_USERNAME: test
-      MONGO_INITDB_ROOT_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: recipes
     ports:
-      - '27017:27017'
+      - '5432:5432'
     networks:
       - integration_test
 

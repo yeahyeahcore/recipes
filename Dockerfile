@@ -10,10 +10,6 @@ RUN mkdir /bin/golang-migrate -p
 RUN GOLANG_MIGRATE_VERSION=v4.15.1 && \
     curl -L https://github.com/golang-migrate/migrate/releases/download/${GOLANG_MIGRATE_VERSION}/migrate.linux-amd64.tar.gz |\
     tar xvz migrate -C /bin/golang-migrate
-# Download health check utility
-RUN GRPC_HEALTH_PROBE_VERSION=v0.4.6 && \
-    wget -qO/bin/grpc_health_probe https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/${GRPC_HEALTH_PROBE_VERSION}/grpc_health_probe-linux-amd64 && \
-    chmod +x /bin/grpc_health_probe
 # Set home directory
 WORKDIR /app
 # Copy go.mod
@@ -66,8 +62,6 @@ WORKDIR /app
 COPY --from=build /app/bin/app ./app
 # Copy migration dir
 COPY --from=build /app/migrations/production ./migrations
-# Copy grpc health probe dir
-COPY --from=build /bin/grpc_health_probe /bin/grpc_health_probe
 # Install migrate tool
 COPY --from=build /bin/golang-migrate /usr/local/bin
 # CMD

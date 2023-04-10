@@ -3,7 +3,7 @@ package initialize
 import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/sirupsen/logrus"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/repository"
+	"github.com/yeahyeahcore/recipes/internal/repository"
 )
 
 type RepositoriesDeps struct {

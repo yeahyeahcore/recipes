@@ -9,8 +9,8 @@ import (
 	"github.com/labstack/echo"
 	"github.com/sirupsen/logrus"
 
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/models"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/pkg/json"
+	"github.com/yeahyeahcore/recipes/internal/models"
+	"github.com/yeahyeahcore/recipes/pkg/json"
 )
 
 type recipeService interface {

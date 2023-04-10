@@ -10,7 +10,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/models"
+	"github.com/yeahyeahcore/recipes/internal/models"
 )
 
 type FileService struct {

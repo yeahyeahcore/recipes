@@ -10,8 +10,8 @@ import (
 	"github.com/labstack/echo/middleware"
 	"github.com/sirupsen/logrus"
 
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/initialize"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/models"
+	"github.com/yeahyeahcore/recipes/internal/initialize"
+	"github.com/yeahyeahcore/recipes/internal/models"
 )
 
 type HTTP struct {
@@ -42,6 +42,11 @@ func NewHTTP(logger *logrus.Logger) *HTTP {
 
 func (receiver *HTTP) Register(controllers *initialize.Controllers, dist string) *HTTP {
 	receiver.echo.Static("/", dist)
+
+	recipeGroup := receiver.echo.Group("/recipe")
+	{
+		recipeGroup.GET("/all", controllers.RecipeController.GetAll)
+	}
 
 	return receiver
 }

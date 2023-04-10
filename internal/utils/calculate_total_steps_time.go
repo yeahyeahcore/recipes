@@ -3,7 +3,7 @@ package utils
 import (
 	"time"
 
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/models"
+	"github.com/yeahyeahcore/recipes/internal/models"
 )
 
 func CalculateTotalStepsTime(steps []models.RecipeStep) time.Duration {

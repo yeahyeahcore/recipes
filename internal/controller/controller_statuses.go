@@ -5,9 +5,9 @@ import (
 
 	"github.com/labstack/echo"
 
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/models"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/repository"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/service"
+	"github.com/yeahyeahcore/recipes/internal/models"
+	"github.com/yeahyeahcore/recipes/internal/repository"
+	"github.com/yeahyeahcore/recipes/internal/service"
 )
 
 var controllerStatusesMap = map[error]int{

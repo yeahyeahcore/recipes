@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/models"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/utils"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/pkg/array"
+	"github.com/yeahyeahcore/recipes/internal/models"
+	"github.com/yeahyeahcore/recipes/internal/utils"
+	"github.com/yeahyeahcore/recipes/pkg/array"
 )
 
 type recipeRepository interface {

@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/pkg/array"
+	"github.com/yeahyeahcore/recipes/pkg/array"
 )
 
 func TestIndexOf(t *testing.T) {

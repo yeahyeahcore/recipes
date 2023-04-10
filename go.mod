@@ -1,9 +1,10 @@
-module penahub.gitlab.yandexcloud.net/pena-services/accruals-service
+module github.com/yeahyeahcore/recipes
 
 go 1.20
 
 require (
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
+	github.com/go-resty/resty/v2 v2.7.0
 	github.com/google/uuid v1.3.0
 	github.com/jackc/pgx v3.6.2+incompatible
 	github.com/jackc/pgx/v5 v5.3.1

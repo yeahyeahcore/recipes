@@ -3,7 +3,7 @@ package utils
 import (
 	"sort"
 
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/models"
+	"github.com/yeahyeahcore/recipes/internal/models"
 )
 
 func SortRecipesByTotalStepsTime(recipes []models.Recipe) {

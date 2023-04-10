@@ -3,7 +3,7 @@ package initialize
 import (
 	"github.com/sirupsen/logrus"
 
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/service"
+	"github.com/yeahyeahcore/recipes/internal/service"
 )
 
 type ServicesDeps struct {

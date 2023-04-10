@@ -1,6 +1,6 @@
 package models
 
-import "penahub.gitlab.yandexcloud.net/pena-services/accruals-service/pkg/postgres"
+import "github.com/yeahyeahcore/recipes/pkg/postgres"
 
 type Config struct {
 	HTTP      HTTPConfiguration

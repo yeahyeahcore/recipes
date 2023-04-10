@@ -3,7 +3,7 @@ package initialize
 import (
 	"github.com/sirupsen/logrus"
 
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/controller"
+	"github.com/yeahyeahcore/recipes/internal/controller"
 )
 
 type ControllersDeps struct {

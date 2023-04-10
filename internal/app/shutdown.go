@@ -7,7 +7,7 @@ import (
 	"syscall"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/server"
+	"github.com/yeahyeahcore/recipes/internal/server"
 )
 
 type gracefulShutdownDeps struct {

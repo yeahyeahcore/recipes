@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/models"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/utils"
+	"github.com/yeahyeahcore/recipes/internal/models"
+	"github.com/yeahyeahcore/recipes/internal/utils"
 )
 
 func TestCalculateTotalStepsTime(t *testing.T) {

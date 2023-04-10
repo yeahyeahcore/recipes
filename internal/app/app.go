@@ -6,10 +6,10 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/initialize"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/models"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/internal/server"
-	"penahub.gitlab.yandexcloud.net/pena-services/accruals-service/pkg/postgres"
+	"github.com/yeahyeahcore/recipes/internal/initialize"
+	"github.com/yeahyeahcore/recipes/internal/models"
+	"github.com/yeahyeahcore/recipes/internal/server"
+	"github.com/yeahyeahcore/recipes/pkg/postgres"
 )
 
 func Run(config *models.Config, logger *logrus.Logger) {
